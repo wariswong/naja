@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NAJA Admin</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="admin-config.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <style>
+    :root {
+      --cream: #FBF7EE;
+      --paper: #FFFDF8;
+      --green: #1F4D3A;
+      --green-soft: #2F6B50;
+      --ink: #23302A;
+      --muted: #6B776F;
+      --line: #E7E1D3;
+      --danger: #C8283C;
+      --ok: #2E7D4F;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Prompt', system-ui, sans-serif; background: var(--cream); color: var(--ink); line-height: 1.5; }
+    .wrap { width: min(960px, 100% - 32px); margin-inline: auto; }
+    h1 { font-size: 1.15rem; color: var(--green); font-weight: 600; }
+    h2 { font-size: 1.1rem; color: var(--green); font-weight: 600; margin-bottom: 14px; }
+    a { color: var(--green); }
+    .hidden { display: none !important; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 18px; border-radius: 999px; border: 1.5px solid var(--green);
+      background: var(--green); color: #fff; font: inherit; font-size: .92rem; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .btn:hover { background: var(--green-soft); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost { background: transparent; color: var(--green); }
+    .btn.ghost:hover { background: rgba(31,77,58,.07); }
+    .btn.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+    .btn.icon { padding: 6px 10px; }
+
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px; margin-bottom: 20px; }
+    label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 4px; }
+    input[type=text], input[type=password], input[type=number], input[type=url], textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: .95rem; background: #fff; color: var(--ink);
+    }
+    input:focus, textarea:focus { outline: 2px solid rgba(31,77,58,.35); border-color: var(--green); }
+    textarea { resize: vertical; min-height: 70px; }
+    input[type=color] { width: 44px; height: 40px; border: 1px solid var(--line); border-radius: 10px; padding: 3px; background: #fff; cursor: pointer; }
+    .hint { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+    .fields { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 16px; }
+    .fields .full { grid-column: 1 / -1; }
+    .color-row { display: flex; gap: 10px; align-items: center; }
+
+    /* ---------- Login ---------- */
+    .login { max-width: 460px; margin: 8vh auto; }
+    .login .panel { display: grid; gap: 14px; }
+    .login .brand { text-align: center; margin-bottom: 8px; font-size: 2.2rem; }
+    .login p { text-align: center; color: var(--muted); font-size: .92rem; }
+    .gbtn { display: flex; justify-content: center; min-height: 44px; }
+    .check { display: flex; gap: 8px; align-items: center; font-size: .9rem; color: var(--ink); }
+    .who { font-size: .85rem; color: var(--muted); }
+
+    /* ---------- Top bar ---------- */
+    .bar { position: sticky; top: 0; z-index: 10; background: rgba(251,247,238,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+    .bar .wrap { display: flex; align-items: center; gap: 12px; min-height: 64px; flex-wrap: wrap; padding: 10px 0; }
+    .bar .spacer { flex: 1; }
+    .status { font-size: .88rem; color: var(--muted); }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+    .status.dirty { color: #B86A12; }
+
+    /* ---------- Image picker ---------- */
+    .img-box { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .img-box .thumb { width: 96px; height: 96px; border-radius: 12px; border: 1px dashed var(--line); background: #fff center/cover no-repeat; display: grid; place-items: center; color: var(--muted); font-size: .75rem; flex: none; }
+    .img-box .thumb.tall { height: 140px; background-size: contain; }
+    .img-box .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* ---------- Product editor ---------- */
+    .product { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin-bottom: 16px; background: #fff; }
+    .product.off { opacity: .6; }
+    .product-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; flex-wrap: wrap; }
+    .product-head .title { font-weight: 600; font-size: 1.15rem; flex: 1; min-width: 120px; }
+    .product-body { padding: 16px; display: grid; gap: 14px; }
+
+    .empty { text-align: center; color: var(--muted); padding: 30px 0; }
+    @media (max-width: 640px) {
+      .fields { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= Login ================= -->
+  <div class="wrap login" id="login-view">
+    <div class="brand">🐱</div>
+    <div class="panel">
+      <h1 style="text-align:center">NAJA DRINKS · ระบบหลังร้าน</h1>
+      <p>เข้าสู่ระบบด้วยบัญชี Google ที่ได้รับสิทธิ์ admin</p>
+      <div class="gbtn" id="google-btn"></div>
+      <div class="status" id="login-status" style="text-align:center"></div>
+    </div>
+  </div>
+
+  <!-- ================= Editor ================= -->
+  <div id="editor-view" class="hidden">
+    <div class="bar">
+      <div class="wrap">
+        <h1>🐱 NAJA Admin</h1>
+        <span class="status" id="status"></span>
+        <span class="spacer"></span>
+        <span class="who" id="who"></span>
+        <div id="relogin-btn" class="hidden"></div>
+        <a class="btn ghost" href="./" target="_blank" rel="noopener">ดูหน้าเว็บ</a>
+        <button class="btn ghost" id="logout-btn">ออกจากระบบ</button>
+        <button class="btn" id="save-btn">💾 บันทึก &amp; เผยแพร่</button>
+      </div>
+    </div>
+
+    <main class="wrap">
+      <section class="panel">
+        <h2>ข้อมูลร้าน</h2>
+        <div class="fields">
+          <div class="full">
+            <label>รูปหลัก (หน้าแรก)</label>
+            <div class="img-box">
+              <div class="thumb tall" id="hero-thumb"></div>
+              <div class="actions">
+                <label class="btn ghost" style="margin:0">📷 เปลี่ยนรูป<input type="file" accept="image/*" data-upload="hero" hidden></label>
+              </div>
+            </div>
+          </div>
+          <div class="full">
+            <label>ข้อความแนะนำร้าน</label>
+            <textarea data-shop="intro"></textarea>
+          </div>
+          <div><label>ขนาดขวด</label><input type="text" data-shop="unit"></div>
+          <div><label>เบอร์โทร</label><input type="text" data-shop="phone"></div>
+          <div class="full">
+            <label>ลิงก์ LINE</label><input type="url" data-shop="lineUrl">
+            <div class="hint">เช่น https://line.me/R/ti/p/@najadrinks</div>
+          </div>
+          <div><label>Facebook</label><input type="url" data-shop="facebookUrl"></div>
+          <div><label>Instagram</label><input type="url" data-shop="instagramUrl"></div>
+          <div class="full"><label>ข้อความในส่วนสั่งซื้อ</label><input type="text" data-shop="note"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+          <h2 style="margin:0">เมนูสินค้า</h2>
+          <button class="btn ghost" id="add-btn">＋ เพิ่มเมนู</button>
+        </div>
+        <div id="product-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const { apiUrl, googleClientId } = window.ADMIN_CONFIG || {};
+    const TOKEN_KEY = 'naja-admin-id-token';
+
+    let idToken = null;      // Google ID token (อายุ 1 ชั่วโมง)
+    let data = null;         // เนื้อหา products.json
+    let sha = null;          // sha ของไฟล์ ใช้กันการเขียนทับ
+    let dirty = false;
+    const previews = {};     // path → dataURL ของรูปที่เพิ่งอัปโหลด (GitHub Pages ยัง deploy ไม่เสร็จ)
+
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    // เก็บ token ไว้ใน sessionStorage ให้รีเฟรชหน้าแล้วไม่ต้องล็อกอินใหม่ (อาจใช้ไม่ได้ใน private mode)
+    const session = {
+      get() { try { return sessionStorage.getItem(TOKEN_KEY); } catch (e) { return null; } },
+      set(v) { try { sessionStorage.setItem(TOKEN_KEY, v); } catch (e) {} },
+      clear() { try { sessionStorage.removeItem(TOKEN_KEY); } catch (e) {} }
+    };
+
+    function tokenExpired(token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        return payload.exp * 1000 < Date.now() + 60000;
+      } catch (e) { return true; }
+    }
+
+    // ---------- Admin API (Apps Script) ----------
+    // ใช้ Content-Type text/plain เพื่อไม่ให้เบราว์เซอร์ส่ง CORS preflight ซึ่ง Apps Script ไม่รองรับ
+    async function api(action, payload = {}) {
+      if (!idToken || tokenExpired(idToken)) {
+        const err = new Error('เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่');
+        err.code = 'unauthenticated';
+        throw err;
+      }
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action, idToken, ...payload })
+      });
+      const json = await res.json();
+      if (!json.ok) {
+        const err = new Error(json.error);
+        err.code = json.code;
+        throw err;
+      }
+      return json;
+    }
+
+    async function loadData() {
+      const res = await api('load');
+      sha = res.sha;
+      data = res.data;
+      data.shop = data.shop || {};
+      data.products = data.products || [];
+      $('who').textContent = res.email;
+    }
+
+    async function saveData() {
+      const res = await api('save', { data, sha });
+      sha = res.sha;
+    }
+
+    // ย่อรูปให้ไม่เกิน 1400px แล้วแปลงเป็น JPEG เพื่อให้เว็บโหลดเร็ว
+    async function resizeImage(file, max = 1400) {
+      const img = await createImageBitmap(file);
+      const scale = Math.min(1, max / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL('image/jpeg', 0.85);
+    }
+
+    async function uploadImage(file, label) {
+      const dataUrl = await resizeImage(file);
+      const { path } = await api('upload', { name: label, content: dataUrl.split(',')[1] });
+      previews[path] = dataUrl;
+      return path;
+    }
+
+    // ---------- UI helpers ----------
+    function setStatus(text, kind = '') {
+      const el = $('status');
+      el.textContent = text;
+      el.className = 'status ' + kind;
+    }
+    function markDirty() {
+      dirty = true;
+      setStatus('มีการแก้ไขที่ยังไม่ได้บันทึก', 'dirty');
+    }
+    const imgSrc = path => previews[path] || path;
+    function setThumb(el, path) {
+      el.style.backgroundImage = path ? `url("${imgSrc(path)}")` : '';
+      el.textContent = path ? '' : 'ไม่มีรูป';
+    }
+    const listText = arr => (arr || []).join(', ');
+    const parseList = str => str.split(',').map(s => s.trim()).filter(Boolean);
+
+    // ---------- Render ----------
+    function renderShop() {
+      document.querySelectorAll('[data-shop]').forEach(el => el.value = data.shop[el.dataset.shop] ?? '');
+      setThumb($('hero-thumb'), data.shop.heroImage);
+    }
+
+    function productHead(p) {
+      return `${esc(p.id)} ${esc(p.name)}`;
+    }
+
+    function renderProducts() {
+      const list = $('product-list');
+      if (!data.products.length) {
+        list.innerHTML = '<div class="empty">ยังไม่มีเมนู กด “เพิ่มเมนู” เพื่อเริ่ม</div>';
+        return;
+      }
+      list.innerHTML = data.products.map((p, i) => `
+        <div class="product ${p.visible === false ? 'off' : ''}" data-i="${i}">
+          <div class="product-head" style="background:${esc(p.bg)};color:${esc(p.color)}">
+            <span class="title">${productHead(p)}</span>
+            <label class="check" style="margin:0"><input type="checkbox" data-k="visible" ${p.visible === false ? '' : 'checked'}> แสดงบนเว็บ</label>
+            <button class="btn ghost icon" data-act="up" title="เลื่อนขึ้น" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn ghost icon" data-act="down" title="เลื่อนลง" ${i === data.products.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="btn danger icon" data-act="delete" title="ลบเมนู">ลบ</button>
+          </div>
+          <div class="product-body">
+            <div class="fields">
+              <div><label>รหัส</label><input type="text" data-k="id" value="${esc(p.id)}"></div>
+              <div><label>ชื่อเมนู</label><input type="text" data-k="name" value="${esc(p.name)}"></div>
+              <div><label>ราคา (บาท)</label><input type="number" min="0" data-k="price" value="${esc(p.price)}"></div>
+              <div>
+                <label>สีตัวอักษร / สีพื้นการ์ด</label>
+                <div class="color-row">
+                  <input type="color" data-k="color" value="${esc(p.color || '#1F4D3A')}">
+                  <input type="color" data-k="bg" value="${esc(p.bg || '#F3F0E6')}">
+                </div>
+              </div>
+              <div class="full">
+                <label>ส่วนผสม</label>
+                <input type="text" data-k="ingredients" value="${esc(listText(p.ingredients))}">
+                <div class="hint">คั่นด้วยจุลภาค ใส่อีโมจินำหน้าได้ เช่น 🍊 ส้ม, 🥕 แครอท</div>
+              </div>
+              <div class="full"><label>คำอธิบาย</label><textarea data-k="description">${esc(p.description)}</textarea></div>
+              <div class="full">
+                <label>ประโยชน์</label>
+                <input type="text" data-k="benefits" value="${esc(listText(p.benefits))}">
+                <div class="hint">คั่นด้วยจุลภาค</div>
+              </div>
+              <div class="full">
+                <label>รูปสินค้า (ไม่บังคับ)</label>
+                <div class="img-box">
+                  <div class="thumb" data-thumb></div>
+                  <div class="actions">
+                    <label class="btn ghost" style="margin:0">📷 อัปโหลดรูป<input type="file" accept="image/*" data-upload="${i}" hidden></label>
+                    ${p.image ? '<button class="btn danger" data-act="clear-image">ลบรูป</button>' : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`).join('');
+      list.querySelectorAll('.product').forEach(el => setThumb(el.querySelector('[data-thumb]'), data.products[el.dataset.i].image));
+    }
+
+    function renderAll() { renderShop(); renderProducts(); }
+
+    // ---------- Events ----------
+    document.querySelectorAll('[data-shop]').forEach(el => el.addEventListener('input', () => {
+      data.shop[el.dataset.shop] = el.value;
+      markDirty();
+    }));
+
+    $('product-list').addEventListener('input', e => {
+      const el = e.target, k = el.dataset.k;
+      const card = el.closest('.product');
+      if (!k || !card) return;
+      const p = data.products[card.dataset.i];
+      if (k === 'visible') { p.visible = el.checked; card.classList.toggle('off', !el.checked); }
+      else if (k === 'price') p.price = el.value === '' ? '' : Number(el.value);
+      else if (k === 'ingredients' || k === 'benefits') p[k] = parseList(el.value);
+      else p[k] = el.value;
+
+      const head = card.querySelector('.product-head');
+      head.style.background = p.bg;
+      head.style.color = p.color;
+      head.querySelector('.title').innerHTML = productHead(p);
+      markDirty();
+    });
+
+    $('product-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const i = Number(btn.closest('.product').dataset.i);
+      const list = data.products;
+      switch (btn.dataset.act) {
+        case 'up': [list[i - 1], list[i]] = [list[i], list[i - 1]]; break;
+        case 'down': [list[i + 1], list[i]] = [list[i], list[i + 1]]; break;
+        case 'delete':
+          if (!confirm(`ลบเมนู ${list[i].id} ${list[i].name} ?`)) return;
+          list.splice(i, 1);
+          break;
+        case 'clear-image': list[i].image = ''; break;
+      }
+      renderProducts();
+      markDirty();
+    });
+
+    $('add-btn').addEventListener('click', () => {
+      const next = String(data.products.length + 1).padStart(2, '0');
+      data.products.push({
+        id: next, name: 'NEW', color: '#1F4D3A', bg: '#F3F0E6',
+        ingredients: [], description: '', benefits: [], price: '', image: '', visible: true
+      });
+      renderProducts();
+      markDirty();
+      $('product-list').lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    // อัปโหลดรูป (ใช้ทั้งรูปหลักและรูปสินค้า)
+    document.addEventListener('change', async e => {
+      const input = e.target;
+      if (!input.dataset.upload || !input.files[0]) return;
+      const target = input.dataset.upload;
+      const label = target === 'hero' ? 'hero' : data.products[target].name;
+      setStatus('กำลังอัปโหลดรูป…');
+      try {
+        const path = await uploadImage(input.files[0], label);
+        if (target === 'hero') { data.shop.heroImage = path; renderShop(); }
+        else { data.products[target].image = path; renderProducts(); }
+        markDirty();
+        setStatus('อัปโหลดรูปแล้ว กด “บันทึก & เผยแพร่” เพื่อใช้รูปนี้บนเว็บ', 'dirty');
+      } catch (err) {
+        handleApiError(err, 'อัปโหลดรูปไม่สำเร็จ: ');
+      }
+      input.value = '';
+    });
+
+    $('save-btn').addEventListener('click', async () => {
+      const ids = data.products.map(p => String(p.id).trim());
+      if (ids.some(id => !id)) return setStatus('มีเมนูที่ยังไม่ได้ใส่รหัส', 'err');
+      if (new Set(ids).size !== ids.length) return setStatus('รหัสเมนูซ้ำกัน', 'err');
+
+      const btn = $('save-btn');
+      btn.disabled = true;
+      setStatus('กำลังบันทึก…');
+      try {
+        await saveData();
+        dirty = false;
+        setStatus('✓ บันทึกแล้ว หน้าเว็บจะอัปเดตภายในประมาณ 1–2 นาที', 'ok');
+      } catch (err) {
+        handleApiError(err, 'บันทึกไม่สำเร็จ: ');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    $('logout-btn').addEventListener('click', () => {
+      if (dirty && !confirm('ยังมีการแก้ไขที่ไม่ได้บันทึก ออกจากระบบเลยไหม?')) return;
+      dirty = false;
+      session.clear();
+      if (window.google) google.accounts.id.disableAutoSelect();
+      location.reload();
+    });
+
+    window.addEventListener('beforeunload', e => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+    // token หมดอายุระหว่างแก้: ให้ล็อกอินใหม่จากแถบด้านบน โดยไม่ทิ้งสิ่งที่แก้ไว้
+    function handleApiError(err, prefix) {
+      if (err.code === 'unauthenticated') {
+        $('relogin-btn').classList.remove('hidden');
+        setStatus('เซสชันหมดอายุ กด “Sign in” เพื่อเข้าสู่ระบบใหม่ แล้วบันทึกอีกครั้ง', 'err');
+      } else {
+        setStatus(prefix + err.message, 'err');
+      }
+    }
+
+    // ---------- Login ----------
+    function setLoginStatus(text, kind = '') {
+      $('login-status').textContent = text;
+      $('login-status').className = 'status ' + kind;
+    }
+
+    async function start() {
+      setLoginStatus('กำลังตรวจสอบสิทธิ์…');
+      try {
+        await loadData();
+      } catch (err) {
+        session.clear();
+        idToken = null;
+        setLoginStatus(err.message || 'เชื่อมต่อไม่สำเร็จ', 'err');
+        return;
+      }
+      renderAll();
+      $('login-view').classList.add('hidden');
+      $('editor-view').classList.remove('hidden');
+      setStatus('พร้อมแก้ไข', 'ok');
+    }
+
+    function onGoogleCredential(response) {
+      idToken = response.credential;
+      session.set(idToken);
+      if (data) {
+        // ล็อกอินใหม่ระหว่างแก้ไข ไม่ต้องโหลดข้อมูลทับ
+        $('relogin-btn').classList.add('hidden');
+        setStatus('เข้าสู่ระบบแล้ว กด “บันทึก & เผยแพร่” อีกครั้ง', 'dirty');
+      } else {
+        start();
+      }
+    }
+
+    function initGoogle() {
+      if (!apiUrl || !googleClientId || /XXXX/.test(apiUrl + googleClientId)) {
+        setLoginStatus('ยังไม่ได้ตั้งค่า admin-config.js (ดูวิธีใน README)', 'err');
+        return;
+      }
+      google.accounts.id.initialize({ client_id: googleClientId, callback: onGoogleCredential, auto_select: true });
+      google.accounts.id.renderButton($('google-btn'), { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', locale: 'th' });
+      google.accounts.id.renderButton($('relogin-btn'), { theme: 'outline', size: 'medium', shape: 'pill', text: 'signin', locale: 'th' });
+
+      const saved = session.get();
+      if (saved && !tokenExpired(saved)) {
+        idToken = saved;
+        start();
+      } else {
+        google.accounts.id.prompt();
+      }
+    }
+
+    // สคริปต์ Google โหลดแบบ async รอจนพร้อมก่อน
+    (function waitForGoogle(tries = 0) {
+      if (window.google && google.accounts && google.accounts.id) return initGoogle();
+      if (tries > 100) return setLoginStatus('โหลดระบบ Google Login ไม่สำเร็จ ลองรีเฟรชหน้า', 'err');
+      setTimeout(() => waitForGoogle(tries + 1), 100);
+    })();
+  </script>
+</body>
+</html>

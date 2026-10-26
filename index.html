@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NAJA DRINKS | น้ำผักผลไม้สกัดเย็น</title>
+  <meta name="description" content="น้ำผักผลไม้สกัดเย็นแท้ 100% ไม่ผสมน้ำ ไม่ใส่น้ำตาล ไม่ใส่สารกันเสีย">
+  <!-- รูปพรีวิวเวลาแชร์ลิงก์: เปลี่ยน USERNAME เป็นชื่อบัญชี GitHub -->
+  <meta property="og:title" content="NAJA DRINKS | น้ำผักผลไม้สกัดเย็น">
+  <meta property="og:description" content="Fresh · Healthy · Natural — ไม่ผสมน้ำ ไม่ใส่น้ำตาล ไม่ใส่สารกันเสีย">
+  <meta property="og:image" content="https://USERNAME.github.io/naja/pictures/S__96600087.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #FBF7EE;
+      --paper: #FFFDF8;
+      --green: #1F4D3A;
+      --green-soft: #2F6B50;
+      --orange: #F28C28;
+      --ink: #23302A;
+      --muted: #6B776F;
+      --line: #E7E1D3;
+      --radius: 22px;
+      --shadow: 0 10px 30px rgba(31, 77, 58, .10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Prompt', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+    /* ---------- Nav ---------- */
+    .nav {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(251, 247, 238, .88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--green); letter-spacing: .04em; }
+    .logo svg { width: 34px; height: 34px; }
+    .logo small { font-weight: 500; letter-spacing: .3em; font-size: .7rem; }
+    .nav-links { display: flex; gap: 28px; font-size: .95rem; color: var(--green); }
+    .nav-links a:hover { color: var(--orange); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 999px;
+      background: var(--green); color: #fff; font-weight: 500;
+      border: 0; cursor: pointer; font: inherit;
+      transition: transform .15s, background .15s;
+    }
+    .btn:hover { background: var(--green-soft); transform: translateY(-2px); }
+    .btn.line { background: #06C755; }
+    .btn.line:hover { background: #05b04b; }
+    .btn.ghost { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
+    .btn.ghost:hover { background: var(--green); color: #fff; }
+    .btn.sm { padding: 8px 18px; font-size: .9rem; }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 56px 0 48px; overflow: hidden; }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 40px; }
+    .eyebrow { letter-spacing: .3em; font-size: .8rem; color: var(--muted); text-transform: uppercase; }
+    .hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1; color: var(--green); font-weight: 700; margin: 12px 0 4px; letter-spacing: .02em; }
+    .hero h1 span { display: block; font-size: .32em; letter-spacing: .45em; font-weight: 500; margin-top: 10px; }
+    .script { font-family: 'Caveat', cursive; color: var(--green-soft); font-size: 1.8rem; transform: rotate(-4deg); display: inline-block; margin: 14px 0 8px; }
+    .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 30em; margin-bottom: 28px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-visual { position: relative; display: grid; place-items: center; min-height: 480px; }
+    /* mask ไล่ขอบรูปให้จาง ให้พื้นหลังของรูปกลืนไปกับพื้นเว็บ */
+    .hero-visual img {
+      position: relative; max-height: 560px; width: auto;
+      -webkit-mask-image: radial-gradient(ellipse 62% 72% at 50% 50%, #000 55%, transparent 100%);
+              mask-image: radial-gradient(ellipse 62% 72% at 50% 50%, #000 55%, transparent 100%);
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+
+    /* ---------- Features ---------- */
+    .features { padding: 8px 0 56px; }
+    .feature-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .feature { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 18px; text-align: center; }
+    .feature .ico { font-size: 2rem; margin-bottom: 6px; }
+    .feature b { display: block; color: var(--green); }
+    .feature span { font-size: .85rem; color: var(--muted); }
+
+    /* ---------- Section head ---------- */
+    section { scroll-margin-top: 72px; }
+    .sec-head { text-align: center; margin-bottom: 40px; }
+    .sec-head h2 { color: var(--green); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 600; }
+    .sec-head p { color: var(--muted); }
+    .sec-head .rule { display: inline-flex; align-items: center; gap: 14px; letter-spacing: .3em; font-size: .78rem; color: var(--green); margin-bottom: 6px; }
+    .sec-head .rule::before, .sec-head .rule::after { content: ''; width: 36px; height: 1.5px; background: var(--green); }
+
+    /* ---------- Products ---------- */
+    .products { padding: 64px 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+    .grid .status { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: 40px 0; }
+    .card {
+      background: var(--paper); border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); display: flex; flex-direction: column;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(31,77,58,.16); }
+    .card-top { padding: 28px 24px 20px; position: relative; }
+    .card-top .num { display: flex; align-items: center; gap: 10px; font-size: 1.7rem; font-weight: 600; }
+    .card-top .num::before { content: ''; width: 26px; height: 26px; border-radius: 50%; border: 3px solid currentColor; flex: none; }
+    .card-top .sub { color: var(--ink); font-size: .95rem; margin-top: 2px; }
+    .card-top img { width: 100%; height: 220px; object-fit: cover; border-radius: 14px; margin-top: 16px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .chip { background: rgba(255,255,255,.75); border-radius: 999px; padding: 4px 12px; font-size: .85rem; }
+    .card-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+    .card-body p { color: var(--muted); font-size: .95rem; }
+    .benefits { list-style: none; display: grid; gap: 4px; font-size: .9rem; }
+    .benefits li::before { content: '✓'; margin-right: 8px; font-weight: 700; }
+    .card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; border-top: 1px dashed var(--line); }
+    .price { font-size: 1.5rem; font-weight: 600; color: var(--green); }
+    .price small { font-size: .8rem; color: var(--muted); font-weight: 400; }
+
+    /* ---------- Process ---------- */
+    .process { padding: 64px 0; background: var(--green); color: #EAF2EC; }
+    .process .sec-head h2, .process .sec-head .rule { color: #fff; }
+    .process .sec-head .rule::before, .process .sec-head .rule::after { background: #fff; }
+    .process .sec-head p { color: #B9CEC1; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+    .step { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius); padding: 26px 20px; }
+    .step::before { counter-increment: step; content: '0' counter(step); font-size: .85rem; letter-spacing: .2em; color: var(--orange); font-weight: 600; }
+    .step .ico { font-size: 2rem; margin: 8px 0; }
+    .step b { display: block; color: #fff; font-weight: 500; margin-bottom: 4px; }
+    .step span { font-size: .9rem; color: #B9CEC1; }
+
+    /* ---------- Contact ---------- */
+    .contact { padding: 72px 0; }
+    .contact-box {
+      background: var(--paper); border-radius: 30px; box-shadow: var(--shadow);
+      padding: 48px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+    }
+    .contact-box h2 { color: var(--green); font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 600; }
+    .contact-box p { color: var(--muted); margin-top: 6px; }
+    .contact-actions { display: flex; flex-direction: column; gap: 12px; min-width: 240px; }
+    .contact-actions .btn { justify-content: center; }
+
+    footer { padding: 28px 0 40px; text-align: center; color: var(--muted); font-size: .85rem; }
+    footer .social { display: flex; justify-content: center; gap: 18px; margin-bottom: 8px; color: var(--green); }
+
+    /* ---------- Modal ---------- */
+    .modal { position: fixed; inset: 0; background: rgba(20,30,25,.55); display: none; place-items: center; z-index: 50; padding: 16px; }
+    .modal.open { display: grid; }
+    .modal-card { background: var(--paper); border-radius: 26px; max-width: 460px; width: 100%; max-height: calc(100vh - 32px); overflow: auto; animation: pop .2s ease-out; }
+    .modal-card .card-top { padding-top: 32px; }
+    .modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255,255,255,.8); cursor: pointer; font-size: 1.1rem; }
+    .qty { display: flex; align-items: center; gap: 10px; }
+    .qty button { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--green); background: none; color: var(--green); font-size: 1.2rem; cursor: pointer; }
+    .qty output { min-width: 28px; text-align: center; font-weight: 600; }
+    @keyframes pop { from { transform: scale(.94); opacity: 0; } }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 860px) {
+      .hero { padding-top: 24px; }
+      .hero .wrap { grid-template-columns: 1fr; text-align: center; gap: 8px; }
+      .hero p.lead { margin-inline: auto; }
+      .hero-cta { justify-content: center; }
+      .hero-visual { min-height: 0; order: -1; }
+      .hero-visual img { max-height: 400px; }
+      .feature-row, .steps { grid-template-columns: repeat(2, 1fr); }
+      .contact-box { grid-template-columns: 1fr; padding: 32px 24px; text-align: center; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 420px) {
+      .feature-row, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap">
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#cat"/></svg>
+        <span>NAJA <small>DRINKS</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#products">เมนู</a>
+        <a href="#process">กระบวนการ</a>
+        <a href="#contact">สั่งซื้อ</a>
+      </div>
+      <a class="btn sm line js-line" href="#contact" target="_blank" rel="noopener">สั่งทาง LINE</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Cold Pressed Juice</div>
+        <h1>NAJA<span>DRINKS</span></h1>
+        <div class="script">Fresh · Healthy · Natural</div>
+        <p class="lead" id="intro">น้ำผักผลไม้สกัดเย็นแท้ 100% คั้นสดใหม่ทุกวัน ไม่ผสมน้ำ ไม่ใส่น้ำตาล ไม่ใส่สารกันเสีย</p>
+        <div class="hero-cta">
+          <a href="#products" class="btn">ดูเมนูทั้งหมด</a>
+          <a href="#contact" class="btn ghost js-line" target="_blank" rel="noopener">สั่งซื้อเลย</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img id="hero-img" src="pictures/S__96600087.jpg" alt="ขวด NAJA DRINKS Cold Pressed Juice">
+      </div>
+    </div>
+  </header>
+
+  <section class="features">
+    <div class="wrap feature-row">
+      <div class="feature"><div class="ico">🌿</div><b>ไม่ผสมน้ำ</b><span>เนื้อแท้จากผักผลไม้</span></div>
+      <div class="feature"><div class="ico">🚫</div><b>ไม่ใส่น้ำตาล</b><span>หวานธรรมชาติล้วน</span></div>
+      <div class="feature"><div class="ico">🧪</div><b>ไม่ใส่สารกันเสีย</b><span>สดใหม่ ปลอดภัย</span></div>
+      <div class="feature"><div class="ico">🧃</div><b id="unit">180 ml</b><span>พกง่าย ดื่มสะดวก</span></div>
+    </div>
+  </section>
+
+  <section class="products" id="products">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="rule">OUR MENU</div>
+        <h2>เลือกสีที่ใช่สำหรับคุณ</h2>
+        <p>สูตรลับ คัดสรรวัตถุดิบสดทุกเช้า</p>
+      </div>
+      <div class="grid" id="product-grid"><div class="status">กำลังโหลดเมนู…</div></div>
+    </div>
+  </section>
+
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="rule">HOW WE MAKE IT</div>
+        <h2>สกัดเย็น ทำไมดีกว่า?</h2>
+        <p>การบีบอัดแบบไม่ใช้ความร้อน ช่วยคงวิตามินและเอนไซม์ไว้ได้มากกว่าการปั่นทั่วไป</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="ico">🧺</div><b>คัดวัตถุดิบ</b><span>ผักผลไม้สดจากสวน คัดทีละลูก</span></div>
+        <div class="step"><div class="ico">💧</div><b>ล้างสะอาด</b><span>ล้างหลายขั้นตอน ปลอดภัยทุกขวด</span></div>
+        <div class="step"><div class="ico">⚙️</div><b>สกัดเย็น</b><span>บีบอัดช้า ๆ ไม่เกิดความร้อน</span></div>
+        <div class="step"><div class="ico">❄️</div><b>บรรจุ &amp; แช่เย็น</b><span>ส่งตรงถึงมือคุณภายในวัน</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <div>
+          <h2>พร้อมสดชื่นแล้วหรือยัง? 🐱</h2>
+          <p id="note"></p>
+        </div>
+        <div class="contact-actions">
+          <a href="#" class="btn line js-line" target="_blank" rel="noopener">💬 แชท LINE</a>
+          <a href="#" class="btn ghost" id="phone-btn">📞 <span id="phone-text"></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="social" id="social"></div>
+    © <span id="year"></span> NAJA DRINKS · Cold Pressed Juice
+  </footer>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-card" id="modal-card"></div>
+  </div>
+
+  <!-- SVG น้องแมว -->
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="cat" viewBox="0 0 64 64">
+      <path d="M12 30 L14 8 L28 20 Z" fill="#1b1b1b"/><path d="M52 30 L50 8 L36 20 Z" fill="#1b1b1b"/>
+      <path d="M16 24 L17 13 L24 20 Z" fill="#F4A6B0"/><path d="M48 24 L47 13 L40 20 Z" fill="#F4A6B0"/>
+      <ellipse cx="32" cy="34" rx="22" ry="18" fill="#1b1b1b"/>
+      <path d="M32 22 C26 30 20 36 22 44 C26 50 38 50 42 44 C44 36 38 30 32 22 Z" fill="#fff"/>
+      <circle cx="23" cy="33" r="4.2" fill="#F5C518"/><circle cx="41" cy="33" r="4.2" fill="#F5C518"/>
+      <circle cx="23" cy="33" r="2" fill="#111"/><circle cx="41" cy="33" r="2" fill="#111"/>
+      <path d="M30 39 h4 l-2 2.4 Z" fill="#F4A6B0"/>
+      <path d="M28 43 q2 2 4 0 q2 2 4 0" stroke="#111" stroke-width="1.2" fill="none"/>
+      <ellipse cx="20" cy="52" rx="7" ry="5" fill="#fff" stroke="#1b1b1b" stroke-width="1.5"/>
+      <ellipse cx="44" cy="52" rx="7" ry="5" fill="#fff" stroke="#1b1b1b" stroke-width="1.5"/>
+      <rect x="6" y="56" width="52" height="2.5" rx="1.2" fill="#1F4D3A"/>
+    </symbol>
+  </svg>
+
+  <script>
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const shortList = p => p.ingredients.map(i => i.replace(/^\S+\s/, '')).join(' ');
+    const grid = document.getElementById('product-grid');
+    let shop = {}, products = [];
+
+    // ?v= กันเบราว์เซอร์/CDN แคชข้อมูลเก่า หลังแก้จากหน้า admin
+    fetch('data/products.json?v=' + Date.now())
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(data => {
+        shop = data.shop || {};
+        products = (data.products || []).filter(p => p.visible !== false);
+        renderShop();
+        renderProducts();
+      })
+      .catch(() => { grid.innerHTML = '<div class="status">โหลดเมนูไม่สำเร็จ ลองรีเฟรชหน้าอีกครั้ง</div>'; });
+
+    function renderShop() {
+      if (shop.intro) document.getElementById('intro').textContent = shop.intro;
+      if (shop.heroImage) document.getElementById('hero-img').src = shop.heroImage;
+      if (shop.unit) document.getElementById('unit').textContent = shop.unit;
+      document.getElementById('note').textContent = shop.note || '';
+      document.querySelectorAll('.js-line').forEach(a => { if (shop.lineUrl) a.href = shop.lineUrl; });
+      document.getElementById('phone-text').textContent = shop.phone || '';
+      document.getElementById('phone-btn').href = 'tel:' + String(shop.phone || '').replace(/[^\d+]/g, '');
+      const social = [['Facebook', shop.facebookUrl], ['Instagram', shop.instagramUrl], ['LINE', shop.lineUrl]].filter(s => s[1]);
+      document.getElementById('social').innerHTML = social.map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${n}</a>`).join('');
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const cardTop = p => `
+      <div class="card-top" style="background:${esc(p.bg)}">
+        <div class="num" style="color:${esc(p.color)}">${esc(p.id)} ${esc(p.name)}</div>
+        <div class="sub">${esc(shortList(p))}</div>
+        ${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">` : ''}
+        <div class="chips">${p.ingredients.map(i => `<span class="chip">${esc(i)}</span>`).join('')}</div>
+      </div>`;
+
+    function renderProducts() {
+      if (!products.length) { grid.innerHTML = '<div class="status">ยังไม่มีเมนูในขณะนี้</div>'; return; }
+      grid.innerHTML = products.map((p, idx) => `
+        <article class="card">
+          ${cardTop(p)}
+          <div class="card-body">
+            <p>${esc(p.description)}</p>
+            <ul class="benefits" style="color:${esc(p.color)}">${(p.benefits || []).map(b => `<li><span style="color:var(--ink)">${esc(b)}</span></li>`).join('')}</ul>
+            <div class="card-foot">
+              <div class="price">${p.price ? `฿${esc(p.price)} <small>/ ${esc(shop.unit || '')}</small>` : ''}</div>
+              <button class="btn sm" data-idx="${idx}">สั่งเมนูนี้</button>
+            </div>
+          </div>
+        </article>`).join('');
+    }
+
+    // ---------- Order modal ----------
+    const modal = document.getElementById('modal');
+    const modalCard = document.getElementById('modal-card');
+    let qty = 1, current = null;
+
+    function renderModal() {
+      const p = current;
+      const total = p.price ? `รวม ฿${(p.price * qty).toLocaleString()}` : '';
+      const msg = `สวัสดีค่ะ/ครับ ขอสั่ง NAJA ${p.id} ${p.name} จำนวน ${qty} ขวด`;
+      modalCard.innerHTML = `
+        <div style="position:relative">${cardTop(p)}<button class="modal-close" aria-label="ปิด">✕</button></div>
+        <div class="card-body">
+          <p>${esc(p.description)}</p>
+          <div class="card-foot">
+            <div class="qty">
+              <button data-q="-1" aria-label="ลด">−</button><output>${qty}</output><button data-q="1" aria-label="เพิ่ม">+</button>
+            </div>
+            <div class="price">${total}</div>
+          </div>
+          <a class="btn line" style="justify-content:center" target="_blank" rel="noopener"
+             href="https://line.me/R/msg/text/?${encodeURIComponent(msg)}">💬 ส่งคำสั่งซื้อทาง LINE</a>
+          <a class="btn ghost" style="justify-content:center" target="_blank" rel="noopener" href="${esc(shop.lineUrl)}">เพิ่มเพื่อน LINE ร้าน</a>
+        </div>`;
+    }
+
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('[data-idx]');
+      if (!btn) return;
+      current = products[btn.dataset.idx]; qty = 1;
+      renderModal(); modal.classList.add('open');
+    });
+    modal.addEventListener('click', e => {
+      if (e.target === modal || e.target.closest('.modal-close')) return modal.classList.remove('open');
+      const q = e.target.closest('[data-q]');
+      if (q) { qty = Math.max(1, qty + Number(q.dataset.q)); renderModal(); }
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+  </script>
+</body>
+</html>
